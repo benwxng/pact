@@ -5,6 +5,7 @@ import * as SplashScreen from "expo-splash-screen";
 
 import { useSupabase } from "@/hooks/useSupabase";
 import { SupabaseProvider } from "@/providers/supabase-provider";
+import { QueryProvider } from "@/providers/query-provider";
 
 SplashScreen.setOptions({
   duration: 500,
@@ -16,7 +17,9 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   return (
     <SupabaseProvider>
-      <RootNavigator />
+      <QueryProvider>
+        <RootNavigator />
+      </QueryProvider>
     </SupabaseProvider>
   );
 }

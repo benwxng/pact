@@ -7,6 +7,10 @@ export default function TabsLayout() {
         <Label>Home</Label>
         <Icon sf="house.fill" drawable="custom_android_drawable" />
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="profile">
+        <Label>Profile</Label>
+        <Icon sf="person.fill" drawable="custom_android_drawable" />
+      </NativeTabs.Trigger>
     </NativeTabs>
   );
 }
