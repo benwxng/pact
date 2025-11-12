@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import { View, Text, Pressable, Image } from "react-native";
 import { DailyHabit } from "@/types/database.types";
 
 interface HabitItemProps {
@@ -8,43 +8,53 @@ interface HabitItemProps {
 
 export const HabitItem = ({ habit, onToggle }: HabitItemProps) => {
   const isCompleted = habit.is_completed;
-
-  // For social habits, show if everyone completed
   const showSocialStatus = habit.is_social && habit.participants.length > 1;
 
   return (
-    <Pressable style={styles.container} onPress={onToggle}>
-      <View style={styles.leftSection}>
+    <Pressable
+      className="flex-row items-center justify-between bg-card rounded-xl p-4 mb-3"
+      onPress={onToggle}
+    >
+      <View className="flex-row items-center flex-1 gap-3">
         {/* Checkbox */}
-        <View style={[styles.checkbox, isCompleted && styles.checkboxChecked]}>
-          {isCompleted && <Text style={styles.checkmark}>✓</Text>}
+        <View
+          className={`w-6 h-6 rounded-full border-2 items-center justify-center ${
+            isCompleted
+              ? "bg-primary border-primary"
+              : "bg-white border-[#DDDDDD]"
+          }`}
+        >
+          {isCompleted && (
+            <Text className="text-white text-sm font-medium">✓</Text>
+          )}
         </View>
 
         {/* Habit info */}
-        <View style={styles.habitInfo}>
-          <View style={styles.habitHeader}>
-            <Text style={styles.habitName}>
+        <View className="flex-1">
+          <View className="flex-row items-center gap-2 mb-1">
+            <Text className="text-base font-medium text-primary">
               {habit.name} {habit.emoji}
             </Text>
-            {/* You could add streak count here like "🔥 21" */}
           </View>
 
           {/* Participants avatars for social habits */}
           {showSocialStatus && (
-            <View style={styles.participantsRow}>
+            <View className="flex-row items-center">
               {habit.participants.slice(0, 3).map((participant, index) => (
                 <View
                   key={participant.id}
-                  style={[styles.avatar, index > 0 && styles.avatarOverlap]}
+                  className={`w-7 h-7 rounded-full border-2 border-card overflow-hidden ${
+                    index > 0 ? "-ml-2" : ""
+                  }`}
                 >
                   {participant.avatar_url ? (
                     <Image
                       source={{ uri: participant.avatar_url }}
-                      style={styles.avatarImage}
+                      className="w-full h-full"
                     />
                   ) : (
-                    <View style={styles.avatarPlaceholder}>
-                      <Text style={styles.avatarPlaceholderText}>
+                    <View className="w-full h-full bg-[#DDDDDD] items-center justify-center">
+                      <Text className="text-xs font-medium text-secondary">
                         {participant.display_name?.[0]?.toUpperCase() ||
                           participant.username?.[0]?.toUpperCase() ||
                           "?"}
@@ -54,7 +64,7 @@ export const HabitItem = ({ habit, onToggle }: HabitItemProps) => {
                 </View>
               ))}
               {habit.participants.length > 3 && (
-                <Text style={styles.moreParticipants}>
+                <Text className="text-xs text-tertiary ml-2">
                   +{habit.participants.length - 3}
                 </Text>
               )}
@@ -65,8 +75,8 @@ export const HabitItem = ({ habit, onToggle }: HabitItemProps) => {
 
       {/* Social completion indicator */}
       {showSocialStatus && (
-        <View style={styles.socialStatus}>
-          <Text style={styles.socialStatusText}>
+        <View className="px-2 py-1 rounded-md bg-white">
+          <Text className="text-[11px] text-secondary font-medium">
             {habit.is_social_completed ? "✓ All done" : "Waiting..."}
           </Text>
         </View>
@@ -74,101 +84,3 @@ export const HabitItem = ({ habit, onToggle }: HabitItemProps) => {
     </Pressable>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#f5f5f5",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-  },
-  leftSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    flex: 1,
-    gap: 12,
-  },
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: "#ddd",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkboxChecked: {
-    backgroundColor: "#000",
-    borderColor: "#000",
-  },
-  checkmark: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "600",
-  },
-  habitInfo: {
-    flex: 1,
-  },
-  habitHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginBottom: 6,
-  },
-  habitName: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#000",
-  },
-  participantsRow: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  avatar: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    borderWidth: 2,
-    borderColor: "#f5f5f5",
-    overflow: "hidden",
-  },
-  avatarOverlap: {
-    marginLeft: -8,
-  },
-  avatarImage: {
-    width: "100%",
-    height: "100%",
-  },
-  avatarPlaceholder: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#ddd",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  avatarPlaceholderText: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: "#666",
-  },
-  moreParticipants: {
-    fontSize: 12,
-    color: "#999",
-    marginLeft: 8,
-  },
-  socialStatus: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-    backgroundColor: "#fff",
-  },
-  socialStatusText: {
-    fontSize: 11,
-    color: "#666",
-    fontWeight: "500",
-  },
-});

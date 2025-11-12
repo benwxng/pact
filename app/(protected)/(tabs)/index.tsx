@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   ActivityIndicator,
   Pressable,
@@ -26,7 +25,6 @@ export default function HomePage() {
 
   const [selectedDate, setSelectedDate] = useState(getToday());
 
-  // Fetch habits and progress
   const {
     data: habits,
     isLoading: habitsLoading,
@@ -56,17 +54,21 @@ export default function HomePage() {
 
   if (isLoading) {
     return (
-      <View style={[styles.container, styles.centered]}>
-        <ActivityIndicator size="large" color="#000" />
+      <View className="flex-1 bg-background items-center justify-center">
+        <ActivityIndicator size="large" color="#000000" />
       </View>
     );
   }
 
   if (habitsError) {
     return (
-      <View style={[styles.container, styles.centered]}>
-        <Text style={styles.errorText}>Error loading habits</Text>
-        <Text style={styles.errorSubtext}>{habitsError.message}</Text>
+      <View className="flex-1 bg-background items-center justify-center">
+        <Text className="text-lg font-semibold text-error mb-2">
+          Error loading habits
+        </Text>
+        <Text className="text-sm text-tertiary text-center">
+          {habitsError.message}
+        </Text>
       </View>
     );
   }
@@ -74,19 +76,17 @@ export default function HomePage() {
   const hasHabits = habits && habits.length > 0;
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View className="flex-1 bg-background" style={{ paddingTop: insets.top }}>
       <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
+        className="flex-1"
+        contentContainerClassName="px-5 pb-24"
         showsVerticalScrollIndicator={false}
       >
-        {/* Date Selector */}
         <DateSelector
           selectedDate={selectedDate}
           onDateChange={setSelectedDate}
         />
 
-        {/* Progress Bar */}
         {progress && hasHabits && (
           <ProgressBar
             completed={progress.completedHabits}
@@ -95,17 +95,20 @@ export default function HomePage() {
           />
         )}
 
-        {/* Habits List */}
-        <View style={styles.habitsSection}>
+        <View className="mt-6">
           {!hasHabits ? (
-            <View style={styles.emptyState}>
-              <Text style={styles.emptyStateEmoji}>📋</Text>
-              <Text style={styles.emptyStateTitle}>No habits yet</Text>
-              <Text style={styles.emptyStateText}>
+            <View className="items-center justify-center py-16">
+              <Text className="text-6xl mb-4">📋</Text>
+              <Text className="text-xl font-semibold text-primary mb-2">
+                No habits yet
+              </Text>
+              <Text className="text-sm text-tertiary text-center mb-6">
                 Create your first habit to start tracking
               </Text>
-              <Pressable style={styles.createButton}>
-                <Text style={styles.createButtonText}>+ Create Habit</Text>
+              <Pressable className="bg-primary px-6 py-3 rounded-full">
+                <Text className="text-white text-base font-semibold">
+                  + Create Habit
+                </Text>
               </Pressable>
             </View>
           ) : (
@@ -120,96 +123,14 @@ export default function HomePage() {
         </View>
       </ScrollView>
 
-      {/* Floating Action Button */}
       {hasHabits && (
-        <Pressable style={[styles.fab, { bottom: insets.bottom + 80 }]}>
-          <Text style={styles.fabText}>+</Text>
+        <Pressable
+          className="absolute right-5 w-14 h-14 rounded-full bg-primary items-center justify-center shadow-lg"
+          style={{ bottom: insets.bottom + 80 }}
+        >
+          <Text className="text-white text-3xl font-light">+</Text>
         </Pressable>
       )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  centered: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingHorizontal: 20,
-    paddingBottom: 100,
-  },
-  habitsSection: {
-    marginTop: 24,
-  },
-  emptyState: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 60,
-  },
-  emptyStateEmoji: {
-    fontSize: 64,
-    marginBottom: 16,
-  },
-  emptyStateTitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#000",
-    marginBottom: 8,
-  },
-  emptyStateText: {
-    fontSize: 14,
-    color: "#999",
-    textAlign: "center",
-    marginBottom: 24,
-  },
-  createButton: {
-    backgroundColor: "#000",
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 20,
-  },
-  createButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  fab: {
-    position: "absolute",
-    right: 20,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: "#000",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  fabText: {
-    color: "#fff",
-    fontSize: 32,
-    fontWeight: "300",
-  },
-  errorText: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#ff3b30",
-    marginBottom: 8,
-  },
-  errorSubtext: {
-    fontSize: 14,
-    color: "#999",
-    textAlign: "center",
-  },
-});

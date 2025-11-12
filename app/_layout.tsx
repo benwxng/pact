@@ -7,6 +7,8 @@ import { useSupabase } from "@/hooks/useSupabase";
 import { SupabaseProvider } from "@/providers/supabase-provider";
 import { QueryProvider } from "@/providers/query-provider";
 
+import "../global.css";
+
 SplashScreen.setOptions({
   duration: 500,
   fade: true,

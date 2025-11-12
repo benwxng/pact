@@ -1,5 +1,12 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { formatDateForDisplay, addDays, isToday } from "@/utils/date-helpers";
+import { formatDateForDisplay, addDays } from "@/utils/date-helpers";
+import {
+  colors,
+  spacing,
+  borderRadius,
+  fontSize,
+  fontWeight,
+} from "@/styles/theme";
 
 interface DateSelectorProps {
   selectedDate: string;
@@ -12,7 +19,6 @@ export const DateSelector = ({
   selectedDate,
   onDateChange,
 }: DateSelectorProps) => {
-  // Generate array of dates: 3 days before, current, 3 days after
   const dates = Array.from({ length: 7 }, (_, i) =>
     addDays(selectedDate, i - 3)
   );
@@ -22,13 +28,12 @@ export const DateSelector = ({
       <Text style={styles.mainDate}>{formatDateForDisplay(selectedDate)}</Text>
 
       <View style={styles.daysContainer}>
-        {dates.map((date, index) => {
+        {dates.map((date) => {
           const dateObj = new Date(date);
           const dayName = DAYS[dateObj.getDay()];
           const isSelected = date === selectedDate;
           const isPast = date < selectedDate;
           const isFuture = date > selectedDate;
-          const isCurrentDay = isToday(date);
 
           return (
             <Pressable
@@ -55,36 +60,36 @@ export const DateSelector = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 20,
+    paddingVertical: spacing.xl,
   },
   mainDate: {
-    fontSize: 28,
-    fontWeight: "600",
-    color: "#000",
-    marginBottom: 16,
+    fontSize: fontSize.xxxl,
+    fontWeight: fontWeight.medium,
+    color: colors.primary,
+    marginBottom: spacing.lg,
   },
   daysContainer: {
     flexDirection: "row",
-    gap: 12,
+    gap: spacing.md,
   },
   dayButton: {
     flex: 1,
-    paddingVertical: 8,
+    paddingVertical: spacing.sm,
     alignItems: "center",
-    borderRadius: 8,
+    borderRadius: borderRadius.md,
   },
   dayButtonSelected: {
-    backgroundColor: "#000",
+    backgroundColor: colors.primary,
   },
   dayText: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#000",
+    fontSize: fontSize.sm,
+    fontWeight: fontWeight.medium,
+    color: colors.primary,
   },
   dayTextSelected: {
-    color: "#fff",
+    color: colors.white,
   },
   dayTextMuted: {
-    color: "#999",
+    color: colors.tertiary,
   },
 });
