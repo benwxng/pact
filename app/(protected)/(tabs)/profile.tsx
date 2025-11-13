@@ -6,7 +6,7 @@ export default function ProfilePage() {
 
   return (
     <View className="flex-1 bg-background" style={{ paddingTop: insets.top }}>
-      <ScrollView className="flex-1" contentContainerClassName="px-5 pb-24">
+      <ScrollView className="flex-1" contentContainerClassName="px-5 pb-32">
         {/* Header with username and avatar */}
         <View className="flex-row items-center justify-between mt-4 mb-4">
           <Text className="text-2xl font-bold text-primary">benwxng</Text>

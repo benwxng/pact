@@ -1,12 +1,5 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { formatDateForDisplay, addDays } from "@/utils/date-helpers";
-import {
-  colors,
-  spacing,
-  borderRadius,
-  fontSize,
-  fontWeight,
-} from "@/styles/theme";
 
 interface DateSelectorProps {
   selectedDate: string;
@@ -24,10 +17,12 @@ export const DateSelector = ({
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.mainDate}>{formatDateForDisplay(selectedDate)}</Text>
+    <View className="flex-1">
+      <Text className="text-3xl font-medium text-primary mb-4">
+        {formatDateForDisplay(selectedDate)}
+      </Text>
 
-      <View style={styles.daysContainer}>
+      <View className="flex-row gap-3">
         {dates.map((date) => {
           const dateObj = new Date(date);
           const dayName = DAYS[dateObj.getDay()];
@@ -39,14 +34,18 @@ export const DateSelector = ({
             <Pressable
               key={date}
               onPress={() => onDateChange(date)}
-              style={[styles.dayButton, isSelected && styles.dayButtonSelected]}
+              className={`flex-1 py-2 items-center rounded-lg ${
+                isSelected ? "bg-primary" : ""
+              }`}
             >
               <Text
-                style={[
-                  styles.dayText,
-                  isSelected && styles.dayTextSelected,
-                  (isFuture || isPast) && !isSelected && styles.dayTextMuted,
-                ]}
+                className={`text-sm font-medium ${
+                  isSelected
+                    ? "text-white"
+                    : isFuture || isPast
+                      ? "text-tertiary"
+                      : "text-primary"
+                }`}
               >
                 {dayName}
               </Text>
@@ -57,39 +56,3 @@ export const DateSelector = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingVertical: spacing.xl,
-  },
-  mainDate: {
-    fontSize: fontSize.xxxl,
-    fontWeight: fontWeight.medium,
-    color: colors.primary,
-    marginBottom: spacing.lg,
-  },
-  daysContainer: {
-    flexDirection: "row",
-    gap: spacing.md,
-  },
-  dayButton: {
-    flex: 1,
-    paddingVertical: spacing.sm,
-    alignItems: "center",
-    borderRadius: borderRadius.md,
-  },
-  dayButtonSelected: {
-    backgroundColor: colors.primary,
-  },
-  dayText: {
-    fontSize: fontSize.sm,
-    fontWeight: fontWeight.medium,
-    color: colors.primary,
-  },
-  dayTextSelected: {
-    color: colors.white,
-  },
-  dayTextMuted: {
-    color: colors.tertiary,
-  },
-});

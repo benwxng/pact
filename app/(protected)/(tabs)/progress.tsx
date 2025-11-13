@@ -6,7 +6,7 @@ export default function ProgressPage() {
 
   return (
     <View className="flex-1 bg-background" style={{ paddingTop: insets.top }}>
-      <ScrollView className="flex-1" contentContainerClassName="px-5 pb-24">
+      <ScrollView className="flex-1" contentContainerClassName="px-5 pb-32">
         {/* Header */}
         <View className="flex-row items-center justify-between mb-6 mt-4">
           <Text className="text-3xl font-bold text-primary">Progress</Text>

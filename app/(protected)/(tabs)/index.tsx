@@ -79,14 +79,19 @@ export default function HomePage() {
     <View className="flex-1 bg-background" style={{ paddingTop: insets.top }}>
       <ScrollView
         className="flex-1"
-        contentContainerClassName="px-5 pb-24"
+        contentContainerClassName="px-5 pb-32"
         showsVerticalScrollIndicator={false}
       >
+        {/* Header with Date and Add Button */}
+        <View className="flex-row items-start justify-between mb-4">
+          <Pressable className="w-12 h-12 rounded-full bg-primary items-center justify-center ml-3">
+            <Text className="text-white text-2xl font-light">+</Text>
+          </Pressable>
+        </View>
         <DateSelector
           selectedDate={selectedDate}
           onDateChange={setSelectedDate}
         />
-
         {progress && hasHabits && (
           <ProgressBar
             completed={progress.completedHabits}
@@ -122,15 +127,6 @@ export default function HomePage() {
           )}
         </View>
       </ScrollView>
-
-      {hasHabits && (
-        <Pressable
-          className="absolute right-5 w-14 h-14 rounded-full bg-primary items-center justify-center shadow-lg"
-          style={{ bottom: insets.bottom + 80 }}
-        >
-          <Text className="text-white text-3xl font-light">+</Text>
-        </Pressable>
-      )}
     </View>
   );
 }
