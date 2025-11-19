@@ -16,11 +16,19 @@ export const DateSelector = ({
     addDays(selectedDate, i - 3)
   );
 
+  // Split the formatted date into parts (e.g., "Wed, Nov 19" -> ["Wed", "Nov 19"])
+  const formattedDate = formatDateForDisplay(selectedDate);
+  const [dayOfWeek, ...rest] = formattedDate.split(", ");
+  const monthDay = rest.join(", ");
+
   return (
     <View className="flex-1">
-      <Text className="text-3xl font-medium text-primary mb-4">
-        {formatDateForDisplay(selectedDate)}
-      </Text>
+      <View className="flex-row items-baseline mb-4">
+        <Text className="text-3xl font-medium text-primary">{dayOfWeek}, </Text>
+        <Text className="text-3xl font-medium" style={{ color: "#c5c5c5" }}>
+          {monthDay}
+        </Text>
+      </View>
 
       <View className="flex-row gap-3">
         {dates.map((date) => {
@@ -34,18 +42,24 @@ export const DateSelector = ({
             <Pressable
               key={date}
               onPress={() => onDateChange(date)}
-              className={`flex-1 py-2 items-center rounded-lg ${
-                isSelected ? "bg-primary" : ""
-              }`}
+              className="flex-1 py-2 items-center"
             >
               <Text
                 className={`text-sm font-medium ${
                   isSelected
-                    ? "text-white"
+                    ? "text-primary"
                     : isFuture || isPast
                       ? "text-tertiary"
                       : "text-primary"
                 }`}
+                style={
+                  isSelected
+                    ? {
+                        textDecorationLine: "underline",
+                        textDecorationColor: "#000000",
+                      }
+                    : undefined
+                }
               >
                 {dayName}
               </Text>

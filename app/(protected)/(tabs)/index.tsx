@@ -7,6 +7,7 @@ import {
   Pressable,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Plus } from "lucide-react-native";
 
 import { useSupabase } from "@/hooks/useSupabase";
 import { useHabitsForDate } from "@/hooks/useHabits";
@@ -78,20 +79,20 @@ export default function HomePage() {
   return (
     <View className="flex-1 bg-background" style={{ paddingTop: insets.top }}>
       <ScrollView
-        className="flex-1"
+        className="flex-1 mt-2"
         contentContainerClassName="px-5 pb-32"
         showsVerticalScrollIndicator={false}
       >
         {/* Header with Date and Add Button */}
         <View className="flex-row items-start justify-between mb-4">
-          <Pressable className="w-12 h-12 rounded-full bg-primary items-center justify-center ml-3">
-            <Text className="text-white text-2xl font-light">+</Text>
+          <DateSelector
+            selectedDate={selectedDate}
+            onDateChange={setSelectedDate}
+          />
+          <Pressable className="w-8 h-8 rounded-lg bg-primary items-center justify-center ml-3">
+            <Plus {...({ color: "white", size: 20 } as any)} />
           </Pressable>
         </View>
-        <DateSelector
-          selectedDate={selectedDate}
-          onDateChange={setSelectedDate}
-        />
         {progress && hasHabits && (
           <ProgressBar
             completed={progress.completedHabits}
